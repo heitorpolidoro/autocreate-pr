@@ -6,14 +6,14 @@ on:
       - master
 
 jobs:
-  set-auto-create:
+  creating-PR:
     name: Create PR
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set to autocreate
+      - name: Creating PR
         uses: heitorpolidoro/autocreate-pr@master
         with:
           personal_access_token: ${{ secrets.PAT }}
