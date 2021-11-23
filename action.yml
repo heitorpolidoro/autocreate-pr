@@ -1,0 +1,15 @@
+name: "Autocreate PR"
+description: "Set a PR to auto-create"
+
+branding:
+  color: yellow
+  icon: git-pull-request
+
+inputs:
+  personal_access_token:
+    description: "Github Personal access token"
+    required: true
+
+runs:
+  using: "docker"
+  image: "Dockerfile"

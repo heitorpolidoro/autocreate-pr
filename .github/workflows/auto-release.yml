@@ -1,0 +1,24 @@
+name: Create GitHub Release
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create GitHub Release
+        if: github.event_name == 'push' || github.event.pull_request.merged == true
+        uses: heitorpolidoro/auto-release@v1
+        with:
+          personal_access_token: ${{ secrets.PAT }}
+          allowed_users: heitorpolidoro
+          update_released_versions: true
