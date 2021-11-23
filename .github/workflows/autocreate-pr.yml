@@ -1,4 +1,4 @@
-name: Autocreate PR
+name: Create Pull Request
 
 on:
   push:
@@ -7,13 +7,14 @@ on:
 
 jobs:
   creating-PR:
-    name: Create PR
+    name: Create Pull Request
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@master
+        uses: heitorpolidoro/autocreate-pr@automerge-1828
         with:
           personal_access_token: ${{ secrets.PAT }}
+          automerge: true
