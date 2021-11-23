@@ -8,5 +8,5 @@ echo "::group::GitHub authentication"
 echo "::endgroup::"
 
 echo "::group::Creating PR"
-  gh pr create --title "${{ github.ref_name }}" --body "PR Automated created" || echo ""
+  gh pr create --title "$GITHUB_REF" --body "PR Automated created" || echo ""
 echo "::endgroup::"
