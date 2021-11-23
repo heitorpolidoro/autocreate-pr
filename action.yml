@@ -10,6 +10,10 @@ inputs:
     description: "Github Personal access token"
     required: true
 
+  automerge:
+    description: "Set the Pull Request to auto-merge"
+    required: false
+    default: 'false'
 runs:
   using: "docker"
   image: "Dockerfile"
