@@ -6,7 +6,7 @@ set -e
 echo "::group::GitHub authentication"
   echo "$INPUT_PERSONAL_ACCESS_TOKEN" | gh auth login --with-token
 echo "::endgroup::"
-
+env
 echo "::group::Creating PR"
-  gh pr create --title "${{ github.ref_name }}" --body "PR Automated created" || echo ""
+  gh pr create --title "GITHUB_ACTION_REF" --body "PR Automated created" || echo ""
 echo "::endgroup::"
