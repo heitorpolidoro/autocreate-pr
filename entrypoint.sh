@@ -4,7 +4,10 @@ NORMAL="\x1b[0m"
 
 set -e
 echo "::group::GitHub authentication"
-  echo "$INPUT_PERSONAL_ACCESS_TOKEN" | gh auth login --with-token
+  echo "$GITHUB_ACTOR"
+  eval echo "\$$GITHUB_ACTOR"
+  eval echo "\$$GITHUB_ACTOR" | gh auth login --with-token
+  gh auth status
 echo "::endgroup::"
 
 echo "::group::Creating Pull Request"
