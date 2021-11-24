@@ -17,4 +17,3 @@ jobs:
         uses: heitorpolidoro/autocreate-pr@automerge-1833
         with:
           personal_access_token: ${{ secrets.PAT }}
-          automerge: true

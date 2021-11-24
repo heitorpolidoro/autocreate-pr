@@ -10,16 +10,3 @@ echo "::endgroup::"
 echo "::group::Creating Pull Request"
   gh pr create --title "$GITHUB_REF_NAME" --body "PR Automated created" || echo ""
 echo "::endgroup::"
-
-if [[ "$INPUT_AUTOMERGE" == "true" ]]
-then
-  if [[ "$GITHUB_REPOSITORY_OWNER" != "${GITHUB_ACTOR}" ]]
-  then
-    echo -e "User $BOLD$GITHUB_ACTOR$NORMAL is not allowed to auto-release"
-  else
-    echo "::group::Setting to Auto-merge"
-      gh pr merge --auto --squash --delete-branch
-      echo "Pull Request setted to auto-merge"
-    echo "::endgroup::"
-  fi
-fi
