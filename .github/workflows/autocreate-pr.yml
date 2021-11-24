@@ -16,4 +16,4 @@ jobs:
       - name: Creating Pull Request
         uses: heitorpolidoro/autocreate-pr@github_token
         env:
-          HEITORPOLIDORO: ${{ secrets.AUTOCREATE_PR_HEITORPOLIDORO }}
+          heitorpolidoro: ${{ secrets.AUTOCREATE_PR_HEITORPOLIDORO }}
