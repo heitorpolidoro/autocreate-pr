@@ -4,8 +4,9 @@ NORMAL="\x1b[0m"
 
 set -e
 echo "::group::GitHub authentication"
-  eval echo "\$INPUT_AUTOCREATE_PR_$GITHUB_ACTOR"
-  eval echo "\$INPUT_AUTOCREATE_PR_$GITHUB_ACTOR" | gh auth login --with-token
+  echo "$GITHUB_ACTOR"
+  eval echo "\$$GITHUB_ACTOR"
+  eval echo "\$$GITHUB_ACTOR" | gh auth login --with-token
   gh auth status
 echo "::endgroup::"
 
