@@ -4,7 +4,7 @@ NORMAL="\x1b[0m"
 
 set -e
 echo "::group::GitHub authentication"
-  echo "$INPUT_PERSONAL_ACCESS_TOKEN" | gh auth login --with-token
+  echo "$GITHUB_TOKEN" | gh auth login --with-token
 echo "::endgroup::"
 
 echo "::group::Creating Pull Request"

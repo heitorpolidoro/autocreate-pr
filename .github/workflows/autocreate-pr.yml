@@ -15,5 +15,5 @@ jobs:
 
       - name: Creating Pull Request
         uses: heitorpolidoro/autocreate-pr@automerge-1833
-        with:
-          personal_access_token: ${{ secrets.PAT }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
