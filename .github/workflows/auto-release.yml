@@ -18,4 +18,4 @@ jobs:
         with:
           update_released_versions: true
         env:
-          GITHUB: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
