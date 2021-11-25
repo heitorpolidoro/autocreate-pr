@@ -28,7 +28,6 @@ jobs:
         run: |
           DOCKER_IMAGE=ghcr.io/heitorpolidoro/autocreate-pr
           IFS=, read -r -a VERSIONS <<< "${{ steps.release.outputs.versions }}"
-          IFS=, read -r -a VERSIONS <<< "1,2,3"
           TAGS=""
           for VERSION in ${VERSIONS[*]}
           do
@@ -47,10 +46,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: DEBUG
-        run: |
-          echo "TAGS: ${{ steps.prep.outputs.tags }}"
 
       - name: Build and push
         id: docker_build
