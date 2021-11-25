@@ -17,3 +17,5 @@ jobs:
         uses: heitorpolidoro/auto-release@master
         with:
           update_released_versions: true
+        env:
+          GITHUB: ${{ secrets.GITHUB_TOKEN }}
