@@ -1,0 +1,21 @@
+name: Automerge PR
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+
+jobs:
+  set-auto-merge:
+    name: Set Pull Request do Automerge
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setting to Automerge
+        uses: heitorpolidoro/automerge-pr@master
+        env:
+          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}

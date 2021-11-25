@@ -14,8 +14,6 @@ jobs:
 
       - name: Create GitHub Release
         if: github.event_name == 'push' || github.event.pull_request.merged == true
-        uses: heitorpolidoro/auto-release@v1
+        uses: heitorpolidoro/auto-release@master
         with:
-          personal_access_token: ${{ secrets.PAT }}
-          allowed_users: heitorpolidoro
           update_released_versions: true
