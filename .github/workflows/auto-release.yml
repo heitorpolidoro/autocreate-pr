@@ -7,6 +7,7 @@ on:
 
 jobs:
   create-release:
+    name: Create Release
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +34,7 @@ jobs:
             echo "${DOCKER_IMAGE}:${VERSION}"
             TAGS="${TAGS},${DOCKER_IMAGE}:${VERSION}"
           done
-          echo ::set-output name=tags::${TAG}
+          echo ::set-output name=tags::${TAGS}
 
       - name: Set up Docker Buildx
         id: buildx
