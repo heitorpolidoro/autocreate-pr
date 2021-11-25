@@ -27,11 +27,11 @@ jobs:
         id: prep
         run: |
           DOCKER_IMAGE=ghcr.io/heitorpolidoro/autocreate-pr
-          VERIONS=${{ steps.release.outputs.versions }}
+          IFS=, read -r -a VERSIONS <<< "${{ steps.release.outputs.versions }}"
+          IFS=, read -r -a VERSIONS <<< "1,2,3"
           TAGS=""
-          for VERSION in $VERSIONS
+          for VERSION in ${VERSIONS[*]}
           do
-            echo "${DOCKER_IMAGE}:${VERSION}"
             TAGS="${TAGS},${DOCKER_IMAGE}:${VERSION}"
           done
           echo ::set-output name=tags::${TAGS}
