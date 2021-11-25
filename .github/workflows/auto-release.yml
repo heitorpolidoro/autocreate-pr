@@ -48,6 +48,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: DEBUG
+        run: |
+          echo "TAGS: ${{ steps.prep.outputs.tags }}"
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
