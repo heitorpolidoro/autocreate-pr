@@ -14,6 +14,6 @@ else
   echo "::endgroup::"
 
   echo "::group::Creating Pull Request"
-    gh pr create --title "$GITHUB_REF_NAME" --body "PR Automated created" || echo ""
+    gh pr create --title "$GITHUB_REF_NAME" --body "PR automatically created" || echo ""
   echo "::endgroup::"
 fi
