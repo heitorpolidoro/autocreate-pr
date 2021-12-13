@@ -2,7 +2,6 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/heitorpolidoro/autocreate-pr)
 [![Create GitHub Release](https://github.com/heitorpolidoro/autocreate-pr/actions/workflows/auto-release.yml/badge.svg)](https://github.com/heitorpolidoro/autocreate-pr/actions/workflows/auto-release.yml)
 
-
 [![Latest](https://img.shields.io/github/release/heitorpolidoro/autocreate-pr.svg?label=latest)](https://github.com/heitorpolidoro/autocreate-pr/releases/latest)
 ![GitHub Release Date](https://img.shields.io/github/release-date/heitorpolidoro/autocreate-pr)
 
@@ -31,6 +30,6 @@ jobs:
       - name: Creating Pull Request
         uses: heitorpolidoro/autocreate-pr@v1
         env:
-          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
+          <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
 ```
 To enable a user to automatically creates a Pull Request set an `ENV` with the GitHub username passing the user Personal Access Token.
