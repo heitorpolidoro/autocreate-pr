@@ -2,6 +2,10 @@
 BOLD='\x1b[1m'
 NORMAL="\x1b[0m"
 
+echo "::group::Workaround"
+git config --global --add safe.directory /github/workspace
+echo "::endgroup::"
+
 set -e
 token=$(eval echo "\$$GITHUB_ACTOR")
 if [[ -z "$token" ]]
