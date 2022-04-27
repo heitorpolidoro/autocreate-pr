@@ -1,6 +1,5 @@
 # Autocreate Pull Request
 ![GitHub last commit](https://img.shields.io/github/last-commit/heitorpolidoro/autocreate-pr)
-[![Create GitHub Release](https://github.com/heitorpolidoro/autocreate-pr/actions/workflows/auto-release.yml/badge.svg)](https://github.com/heitorpolidoro/autocreate-pr/actions/workflows/auto-release.yml)
 
 [![Latest](https://img.shields.io/github/release/heitorpolidoro/autocreate-pr.svg?label=latest)](https://github.com/heitorpolidoro/autocreate-pr/releases/latest)
 ![GitHub Release Date](https://img.shields.io/github/release-date/heitorpolidoro/autocreate-pr)
