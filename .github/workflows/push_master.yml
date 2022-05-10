@@ -1,4 +1,4 @@
-name: Create GitHub Release
+name: Release
 
 on:
   push:
@@ -16,7 +16,6 @@ jobs:
 
       - name: Create GitHub Release
         id: release
-        if: github.event_name == 'push' || github.event.pull_request.merged == true
         uses: heitorpolidoro/auto-release@v1
         with:
           update_released_versions: true
