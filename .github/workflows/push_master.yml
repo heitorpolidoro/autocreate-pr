@@ -20,4 +20,4 @@ jobs:
         with:
           update_released_versions: true
         env:
-          GITHUB_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
