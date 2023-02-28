@@ -12,7 +12,7 @@ if [[ -z "$token" ]]
 then
   echo -e "User $BOLD$GITHUB_ACTOR$NORMAL is not allowed to auto create Pull Request"
 else
-  echo "::group::GitHub authentication"
+  echo "::group::GitHub authentication ($GITHUB_ACTOR)"
     eval echo "\$$GITHUB_ACTOR" | gh auth login --with-token
     gh auth status
   echo "::endgroup::"
