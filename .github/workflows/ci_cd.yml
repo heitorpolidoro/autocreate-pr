@@ -22,6 +22,7 @@ jobs:
 
   linter:
     name: Linter
+    runs-on: ubuntu-latest
     steps:
       - name: Linter
       # You may pin to the exact commit or the version.
