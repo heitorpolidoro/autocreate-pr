@@ -24,9 +24,8 @@ jobs:
     name: Linter
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Linter
-      # You may pin to the exact commit or the version.
-      # uses: luizm/action-sh-checker@76ab0b22e1f194e4a582edc7969df6485c4e9246
         uses: luizm/action-sh-checker@v0.7.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
