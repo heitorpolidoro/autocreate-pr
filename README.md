@@ -24,10 +24,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@v1
+        uses: heitorpolidoro/autocreate-pr@v2
         env:
           <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
 ```
