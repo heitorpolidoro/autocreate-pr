@@ -29,7 +29,7 @@ jobs:
       # uses: luizm/action-sh-checker@76ab0b22e1f194e4a582edc7969df6485c4e9246
         uses: luizm/action-sh-checker@v0.7.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # If true, run checkbashisms tool against scripts. Default is false
           sh_checker_checkbashisms_enable: true
