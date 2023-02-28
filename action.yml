@@ -6,5 +6,12 @@ branding:
   icon: git-pull-request
 
 runs:
-  using: "docker"
-  image: "Dockerfile"
+  using: "composite"
+  steps:
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+
+    - run: create_pr.sh
+      shell: bash
+
+

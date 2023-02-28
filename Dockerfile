@@ -1,12 +1,12 @@
-FROM alpine
-
-RUN apk add --no-cache \
-    bash \
-    git \
-    github-cli
-
-COPY entrypoint.sh /entrypoint.sh
-
-RUN chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+#FROM alpine
+#
+#RUN apk add --no-cache \
+#    bash \
+#    git \
+#    github-cli
+#
+#COPY create_pr.sh /create_pr.sh
+#
+#RUN chmod +x /create_pr.sh
+#
+#ENTRYPOINT ["/create_pr.sh"]
