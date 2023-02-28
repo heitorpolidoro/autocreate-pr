@@ -21,12 +21,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   linter:
-    - name: Linter
+    name: Linter
+    steps:
+      - name: Linter
       # You may pin to the exact commit or the version.
       # uses: luizm/action-sh-checker@76ab0b22e1f194e4a582edc7969df6485c4e9246
-      uses: luizm/action-sh-checker@v0.7.0
-      with:
-        # If true, run checkbashisms tool against scripts. Default is false
-        sh_checker_checkbashisms_enable: true
-        # If true, it will show the errors as commentaries in the pull requests. Default is false
-        sh_checker_comment: true
+        uses: luizm/action-sh-checker@v0.7.0
+        with:
+          # If true, run checkbashisms tool against scripts. Default is false
+          sh_checker_checkbashisms_enable: true
+          # If true, it will show the errors as commentaries in the pull requests. Default is false
+          sh_checker_comment: true
