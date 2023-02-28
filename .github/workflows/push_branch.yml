@@ -1,4 +1,4 @@
-name: Create Pull Request
+name: Check
 
 on:
   push:
