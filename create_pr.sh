@@ -2,6 +2,10 @@
 BOLD='\x1b[1m'
 NORMAL="\x1b[0m"
 
+if [[ $# < 1 ]]
+then
+  echo sh-checker
+fi
 echo "::group::Workaround"
 git config --global --add safe.directory /github/workspace
 echo "::endgroup::"
