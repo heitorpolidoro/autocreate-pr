@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Setting to Automerge
-        uses: heitorpolidoro/automerge-pr@v2
+        uses: heitorpolidoro/automerge-pr@v1
         env:
           heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
 
