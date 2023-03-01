@@ -3,6 +3,8 @@
 
 [![Latest](https://img.shields.io/github/release/heitorpolidoro/autocreate-pr.svg?label=latest)](https://github.com/heitorpolidoro/autocreate-pr/releases/latest)
 ![GitHub Release Date](https://img.shields.io/github/release-date/heitorpolidoro/autocreate-pr)
+
+[![CI/CD](https://github.com/heitorpolidoro/autocreate-pr/actions/workflows/ci_cd.yml/badge.svg)](https://github.com/heitorpolidoro/autocreate-pr/actions/workflows/ci_cd.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=heitorpolidoro_autocreate-pr&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=heitorpolidoro_autocreate-pr)
 
 ![GitHub](https://img.shields.io/github/license/heitorpolidoro/autocreate-pr)
@@ -19,7 +21,7 @@ on:
       - master
 
 jobs:
-  creating-PR:
+  creating-pr:
     name: Create Pull Request
     runs-on: ubuntu-latest
 
