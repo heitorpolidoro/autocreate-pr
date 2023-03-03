@@ -20,20 +20,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  linter:
-    name: Linter
+  linters:
+    name: Linters
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Linter
-        uses: luizm/action-sh-checker@v0.7.0
+        uses: heitorpolidoro/lint-with-PR-comments@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # If true, run checkbashisms tool against scripts. Default is false
-          sh_checker_checkbashisms_enable: true
-          # If true, it will show the errors as commentaries in the pull requests. Default is false
-          sh_checker_comment: true
+          linters: shellcheck shfmt
 
   set-auto-merge:
     name: Set Pull Request do Automerge
