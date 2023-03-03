@@ -21,7 +21,7 @@ on:
       - master
 
 jobs:
-  creating-PR:
+  creating-pr:
     name: Create Pull Request
     runs-on: ubuntu-latest
 

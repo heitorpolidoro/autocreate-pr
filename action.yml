@@ -1,5 +1,5 @@
 name: "Autocreate PR"
-description: "Set a PR to auto-create"
+description: "Set a Pull Request to auto-create"
 
 branding:
   color: yellow
