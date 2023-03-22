@@ -15,6 +15,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@v2
+        uses: heitorpolidoro/autocreate-pr@master
         env:
           heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
