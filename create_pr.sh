@@ -8,6 +8,9 @@ echo "::endgroup::"
 
 set -e
 token=$(eval echo "\$$GITHUB_ACTOR")
+echo "$GITHUB_ACTOR"
+echo "\$$GITHUB_ACTOR"
+echo "$token"
 if [[ -z "$token" ]]; then
 	echo -e "User $BOLD$GITHUB_ACTOR$NORMAL is not allowed to auto create Pull Request"
 else
