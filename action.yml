@@ -5,6 +5,13 @@ branding:
   color: yellow
   icon: git-pull-request
 
+inputs:
+   automerge:
+     description: "Set the PR with auto-merge"
+     required: false
+     default: false
+
+
 runs:
   using: "composite"
   steps:
