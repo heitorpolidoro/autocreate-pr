@@ -1,15 +1,47 @@
 name: CI/CD
+
 on:
-  push:
+  workflow_dispatch:
     branches:
       - master
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
 
 jobs:
+# Except master
+  create-PR:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Creating Pull Request
+        uses: heitorpolidoro/autocreate-pr@master
+        with:
+          automerge: true
+        env:
+          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
+
+# Any branch
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Tests
+        run: ./tests.sh
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -23,6 +55,8 @@ jobs:
   linters:
     name: Linters
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -34,18 +68,22 @@ jobs:
         with:
           linters: shellcheck shfmt
 
-  set-auto-merge:
-    name: Set Pull Request do Automerge
+# Only master
+  create-release:
+    name: Create Release
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action != 'synchronize'
+    if: github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
+    needs:
+      - tests
+      - linters
+      - sonarcloud
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
 
-      - name: Setting to Automerge
-        uses: heitorpolidoro/automerge-pr@v2
+      - name: Create GitHub Release
+        id: release
+        uses: heitorpolidoro/auto-release@master
         env:
-          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
+          GITHUB_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}
