@@ -17,10 +17,10 @@ else
 	gh pr create --title "$GITHUB_REF_NAME" --body "PR automatically created" || echo ""
 	echo "::endgroup::"
 
-  if [[ "$INPUT_AUTOMERGE" == "true" ]]; then
-    echo "::group::Configuring to auto merge"
-    gh pr merge --auto --squash
-    echo "::endgroup::"
-  fi
+	if [[ "$INPUT_AUTOMERGE" == "true" ]]; then
+		echo "::group::Configuring to auto merge"
+		gh pr merge --auto --squash
+		echo "::endgroup::"
+	fi
 
 fi
