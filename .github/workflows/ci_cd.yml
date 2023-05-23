@@ -20,7 +20,7 @@ jobs:
       - name: Creating Pull Request
         uses: heitorpolidoro/autocreate-pr@debug
         with:
-          automerge: false
+          automerge: true
         env:
           heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
 
