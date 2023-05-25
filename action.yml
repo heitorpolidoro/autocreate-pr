@@ -19,12 +19,10 @@ runs:
       run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
 
-    - name: Set inputs
-      run: echo "INPUT_AUTOMERGE=${{ inputs.automerge }}" >> $GITHUB_ENV
-      shell: bash
-
     - name: Create PR
       run: create_pr.sh
       shell: bash
+      env:
+        INPUT_AUTOMERGE: ${{ inputs.automerge }}
 
 
