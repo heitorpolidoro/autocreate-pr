@@ -2,7 +2,7 @@
 #echo "::group::Workaround"
 #git config --global --add safe.directory /github/workspace
 #echo "::endgroup::"
-env
+env | sort
 #set -e
 #token=$(eval echo "\$$GITHUB_ACTOR")
 #if [[ "$token" == "$" || "$token" == "" ]]; then
