@@ -1,8 +1,4 @@
 #!/bin/bash
-echo "::group::Workaround"
-git config --global --add safe.directory /github/workspace
-echo "::endgroup::"
-
 set -e
 token=$(eval echo "\$$GITHUB_ACTOR")
 if [[ "$token" == "$" || "$token" == "" ]]; then
@@ -22,5 +18,4 @@ else
 		gh pr merge --auto --squash
 		echo "::endgroup::"
 	fi
-
 fi
