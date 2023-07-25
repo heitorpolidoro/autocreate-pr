@@ -15,14 +15,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-#    - name: Define GitHub Path
-#      run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-#      shell: bash
-#
     - name: Create PR
       run: $GITHUB_ACTION_PATH/create_pr.sh
       shell: bash
       env:
-        AUTOMERGE: ${{ inputs.automerge }}
+        INPUT_AUTOMERGE: ${{ inputs.automerge }}
 
 
