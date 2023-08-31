@@ -16,12 +16,10 @@ Action to create a pull request automatically.
 name: Create Pull Request
 
 on:
-  push:
-    branches-ignore:
-      - master
+  create
 
 jobs:
-  creating-pr:
+  create-PR:
     name: Create Pull Request
     runs-on: ubuntu-latest
 
@@ -30,10 +28,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@v2
+        uses: heitorpolidoro/autocreate-pr@master
         with:
-            automerge: true|false
+          automerge: true
         env:
-          <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
+          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
 ```
 To enable a user to automatically creates a Pull Request set an `ENV` with the GitHub username passing the user Personal Access Token.

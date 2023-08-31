@@ -1,10 +1,9 @@
-name: Create PR
+name: Create Pull Prequest
 
 on:
   create
 
 jobs:
-  # Except master
   create-PR:
     name: Create Pull Request
     runs-on: ubuntu-latest
