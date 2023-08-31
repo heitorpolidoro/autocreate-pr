@@ -28,10 +28,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@master
+        uses: heitorpolidoro/autocreate-pr@v2
         with:
-          automerge: true
+            automerge: true|false
         env:
-          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
+          <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
 ```
 To enable a user to automatically creates a Pull Request set an `ENV` with the GitHub username passing the user Personal Access Token.
