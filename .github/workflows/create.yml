@@ -1,4 +1,4 @@
-name: Create Pull Prequest
+name: Create Pull Request
 
 on:
   create
@@ -7,7 +7,6 @@ jobs:
   create-PR:
     name: Create Pull Request
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/master'
 
     steps:
       - name: Checkout
