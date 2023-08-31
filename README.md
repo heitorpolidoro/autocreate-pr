@@ -9,7 +9,7 @@
 
 ![GitHub](https://img.shields.io/github/license/heitorpolidoro/autocreate-pr)
 
-Action to create a pull request automatically with an option to set auto merge.
+Action to create a pull request automatically with an option to set auto-merge.
 
 ### Usage
 ```yaml
@@ -34,4 +34,6 @@ jobs:
         env:
           <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
 ```
-To enable a user to automatically creates a Pull Request set an `ENV` with the GitHub username passing the user Personal Access Token.
+To allow a user to automatically create a pull request, define an `env` with the GitHub username passing in the user's personal access token.
+To enable auto-merge: [Automatically merging a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request)
+
