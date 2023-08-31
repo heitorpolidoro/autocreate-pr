@@ -1,0 +1,22 @@
+name: Release
+on:
+  workflow_run:
+    workflows: ["Code Quality"]
+    branches: [master]
+    types:
+      - completed
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create GitHub Release
+        id: release
+        uses: heitorpolidoro/auto-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}

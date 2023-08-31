@@ -1,4 +1,6 @@
+#!/bin/bash
 # shellcheck disable=SC1090
+# shellcheck disable=SC1091
 source <(curl -s https://raw.githubusercontent.com/heitorpolidoro/bashtest/master/bashtest.sh)
 
 # Set up mock
