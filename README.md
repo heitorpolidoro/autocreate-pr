@@ -9,7 +9,7 @@
 
 ![GitHub](https://img.shields.io/github/license/heitorpolidoro/autocreate-pr)
 
-Action to create a pull request automatically.
+Action to create a pull request automatically with an option to set auto merge.
 
 ### Usage
 ```yaml
