@@ -1,34 +1,21 @@
-name: CI/CD
+name: Code Quality
 
 on:
-  workflow_dispatch:
+  push:
     branches:
       - master
-  push:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - master
 
 jobs:
-# Except master
-  create-PR:
-    name: Create Pull Request
-    runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/master'
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@master
-        with:
-          automerge: true
-        env:
-          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
-
-# Any branch
   tests:
     name: Tests
     runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_dispatch'
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9, "3.10", 3.11]
 
     steps:
       - name: Checkout
@@ -36,21 +23,6 @@ jobs:
 
       - name: Tests
         run: ./tests.sh
-
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_dispatch'
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   linters:
     name: Linters
@@ -67,23 +39,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           linters: shellcheck shfmt
-
-# Only master
-  create-release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
-    needs:
-      - tests
-      - linters
-      - sonarcloud
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Create GitHub Release
-        id: release
-        uses: heitorpolidoro/auto-release@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}

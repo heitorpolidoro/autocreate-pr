@@ -1,0 +1,22 @@
+name: Create PR
+
+on:
+  create
+
+jobs:
+  # Except master
+  create-PR:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Creating Pull Request
+        uses: heitorpolidoro/autocreate-pr@master
+        with:
+          automerge: true
+        env:
+          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
