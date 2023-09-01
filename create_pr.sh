@@ -2,7 +2,7 @@
 set -e
 if [[ "$INPUT_ENABLE_TO_ALL" == "true" ]]; then
   echo "all"
-  exit
+  exit 1
 fi
 token=$(eval echo "\$$GITHUB_ACTOR")
 if [[ "$token" == "$" || "$token" == "" ]]; then
