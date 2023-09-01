@@ -1,19 +1,16 @@
 #!/bin/bash
 set -e
 
-if [[ "$GITHUB_TOKEN" != "" ]]; then
-  token=GITHUB_TOKEN
-  GITHUB_ACTOR="GitHub Bot"
-else
-  token=$(eval echo "\$$GITHUB_ACTOR")
-fi
-if [[ "$token" == "$" || "$token" == "" ]]; then
+token=$(eval echo "\$$GITHUB_ACTOR")
+if [[ "$GITHUB_TOKEN" == "" && ("$token" == "$" || "$token" == "") ]]; then
 	echo -e "User '$GITHUB_ACTOR' is not allowed to auto create Pull Request"
 else
-	echo "::group::GitHub authentication ($GITHUB_ACTOR)"
-	echo "$token" | gh auth login --with-token
-	gh auth status
-	echo "::endgroup::"
+  if [[ "$GITHUB_TOKEN" == "" ]]; then
+	  echo "::group::GitHub authentication ($GITHUB_ACTOR)"
+	  echo "$token" | gh auth login --with-token
+	  gh auth status
+	  echo "::endgroup::"
+	fi
 
 	echo "::group::Creating Pull Request"
 	gh pr create --title "$GITHUB_REF_NAME" --body "PR automatically created" || echo ""
