@@ -1,7 +1,7 @@
 name: Create Pull Request
 
 on:
-  create
+  create:
 
 jobs:
   create-PR:
@@ -16,4 +16,6 @@ jobs:
         uses: heitorpolidoro/autocreate-pr@master
         with:
           automerge: true
-          enable-to-all: true
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
