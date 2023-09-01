@@ -2,10 +2,7 @@ name: Create Pull Request
 
 on:
   create:
-  pull_request:
-    types: [opened, reopened, synchronize]
-    branches:
-      - master
+  push:
 jobs:
   create-PR:
     name: Create Pull Request
