@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@enable-tl-all3
+        uses: heitorpolidoro/autocreate-pr@enable-to-all3
         with:
           automerge: true
           enable-to-all: true
