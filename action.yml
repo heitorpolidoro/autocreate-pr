@@ -10,10 +10,6 @@ inputs:
      description: "Set the PR with auto-merge"
      required: false
      default: false
-   enable_to_all:
-     description: "Allow any one to use the action"
-     required: false
-     default: false
 
 
 runs:
@@ -24,6 +20,5 @@ runs:
       shell: bash
       env:
         INPUT_AUTOMERGE: ${{ inputs.automerge }}
-        INPUT_ENABLE_TO_ALL: ${{ inputs.enable_to_all }}
 
 

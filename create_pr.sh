@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [[ "$INPUT_ENABLE_TO_ALL" == "true" ]]; then
+if [[ "$GITHUB_TOKEN" != "" ]]; then
   token=GITHUB_TOKEN
   GITHUB_ACTOR="GitHub Bot"
 else

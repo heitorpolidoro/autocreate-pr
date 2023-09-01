@@ -16,4 +16,6 @@ jobs:
         uses: heitorpolidoro/autocreate-pr@enable-to-all3
         with:
           automerge: true
-          enable_to_all: true
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
