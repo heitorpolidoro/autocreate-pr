@@ -16,5 +16,3 @@ jobs:
         uses: heitorpolidoro/autocreate-pr@master
         with:
           automerge: true
-        env:
-          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
