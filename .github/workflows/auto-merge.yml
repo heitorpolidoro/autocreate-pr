@@ -18,7 +18,6 @@ jobs:
 
       - name: Auto Merge if PR owner is a Code Owner
         id: release
-        uses: heitorpolidoro/auto-release@master
         env:
           heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
         run: |
