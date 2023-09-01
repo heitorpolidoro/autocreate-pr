@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
-env
+
 if [[ "$INPUT_ENABLE_TO_ALL" == "true" ]]; then
-  token=$(eval echo "\$$GITHUB_TOKEN")
+  token=GITHUB_TOKEN
   GITHUB_ACTOR="GitHub Bot"
 else
   token=$(eval echo "\$$GITHUB_ACTOR")
