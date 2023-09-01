@@ -41,3 +41,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           linters: shellcheck shfmt
+
+  auto-merge:
+    name: Auto Merge
+    runs-on: ubuntu-latest
+    if: ${{ github.action == "heitorpolidoroo" }}
+    needs:
+      - tests
+      - linters
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Wait checks to finish
+        run: gh pr checks --watch -i 1 --fail-fast
+
+      - name: Auto Merge if PR owner is a Code Owner
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}
+        run: |
+            gh pr merge --squash --admin

@@ -9,7 +9,7 @@ mock gh
 
 test_without_github_user() {
 	result=$(source create_pr.sh)
-	assert "$result" "*User '' is not allowed to auto create Pull Request*"
+	assert "$result" "*User '' is not allowed to auto create Pull Request batata*"
 }
 
 test_with_github_user_without_permission() {
