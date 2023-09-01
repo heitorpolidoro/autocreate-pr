@@ -61,6 +61,6 @@ jobs:
 
       - name: Auto Merge if PR owner is a Code Owner
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}
         run: |
             gh pr merge --squash --admin $GITHUB_HEAD_REF
