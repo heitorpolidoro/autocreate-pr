@@ -1,5 +1,9 @@
 #!/bin/bash
 set -e
+if [[ "$INPUT_ENABLE_TO_ALL" == "true" ]]; then
+  echo "all"
+  exit
+fi
 token=$(eval echo "\$$GITHUB_ACTOR")
 if [[ "$token" == "$" || "$token" == "" ]]; then
 	echo -e "User '$GITHUB_ACTOR' is not allowed to auto create Pull Request"

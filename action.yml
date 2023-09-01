@@ -10,6 +10,10 @@ inputs:
      description: "Set the PR with auto-merge"
      required: false
      default: false
+   enable-to-all:
+     description: "Allow any one to use the action"
+     required: false
+     default: false
 
 
 runs:
