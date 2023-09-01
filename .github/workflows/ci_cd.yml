@@ -30,7 +30,6 @@ jobs:
   linters:
     name: Linters
     runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_dispatch'
 
     steps:
       - name: Checkout
