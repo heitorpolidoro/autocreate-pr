@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+env
 if [[ "$INPUT_ENABLE_TO_ALL" == "true" ]]; then
   echo "all"
   exit 1
