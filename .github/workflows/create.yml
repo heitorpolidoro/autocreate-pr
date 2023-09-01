@@ -16,3 +16,4 @@ jobs:
         uses: heitorpolidoro/autocreate-pr@master
         with:
           automerge: true
+          enable-to-all: true
