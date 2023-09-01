@@ -56,9 +56,10 @@ jobs:
 
       - name: Wait checks to finish
         run: gh pr checks --watch -i 1 --fail-fast
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Auto Merge if PR owner is a Code Owner
-        id: release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
