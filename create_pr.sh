@@ -2,15 +2,16 @@
 set -e
 env
 if [[ "$INPUT_ENABLE_TO_ALL" == "true" ]]; then
-  echo "all"
-  exit 1
+  token=$(eval echo "\$$GITHUB_TOKEN")
+  GITHUB_ACTOR="GitHub Bot"
+else
+  token=$(eval echo "\$$GITHUB_ACTOR")
 fi
-token=$(eval echo "\$$GITHUB_ACTOR")
 if [[ "$token" == "$" || "$token" == "" ]]; then
 	echo -e "User '$GITHUB_ACTOR' is not allowed to auto create Pull Request"
 else
 	echo "::group::GitHub authentication ($GITHUB_ACTOR)"
-	eval echo "\$$GITHUB_ACTOR" | gh auth login --with-token
+	echo token | gh auth login --with-token
 	gh auth status
 	echo "::endgroup::"
 
