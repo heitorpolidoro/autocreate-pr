@@ -60,6 +60,6 @@ jobs:
       - name: Auto Merge if PR owner is a Code Owner
         id: release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
             gh pr merge --squash --admin
