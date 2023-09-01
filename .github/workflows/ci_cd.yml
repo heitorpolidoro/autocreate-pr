@@ -45,7 +45,7 @@ jobs:
   auto-merge:
     name: Auto Merge
     runs-on: ubuntu-latest
-    if: ${{ github.action == "heitorpolidoroo" }}
+    if: github.actor == 'heitorpolidoroo'
     needs:
       - tests
       - linters
