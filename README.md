@@ -33,7 +33,11 @@ jobs:
             automerge: true|false
         env:
           <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
+           # or          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 ```
-To allow a user to automatically create a pull request, define an `env` with the GitHub username passing in the user's personal access token.
+To allow a user to automatically create a pull request, define an `env` with the GitHub username passing in the user's personal access token, 
+or pass the GITHUB_TOKEN env to allow to any user.
 To enable auto-merge: [Automatically merging a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request)
 
