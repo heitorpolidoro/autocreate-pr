@@ -19,4 +19,4 @@ jobs:
         id: release
         uses: heitorpolidoro/auto-release@master
         env:
-          GITHUB_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

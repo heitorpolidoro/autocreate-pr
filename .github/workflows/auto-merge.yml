@@ -1,0 +1,39 @@
+name: Release
+on:
+  workflow_run:
+    workflows: ["Code Quality"]
+    branches-ignore:
+      - master
+    types:
+      - completed
+
+jobs:
+  auto-merge:
+    name: Auto Merge
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Auto Merge if PR owner is a Code Owner
+        id: release
+        uses: heitorpolidoro/auto-release@master
+        env:
+          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
+        run: |
+          token=$(eval echo "\$$GITHUB_ACTOR")
+          if [[ "$GITHUB_TOKEN" == "" && ("$token" == "$" || "$token" == "") ]]; then
+            echo -e "User '$GITHUB_ACTOR' is not allowed to auto merge"
+          else
+            if [[ "$GITHUB_TOKEN" == "" ]]; then
+              echo "::group::GitHub authentication ($GITHUB_ACTOR)"
+              echo "$token" | gh auth login --with-token
+              gh auth status
+              echo "::endgroup::"
+            fi
+            
+            echo "::group::Merging Pull Request"
+            gh pr merge --squash --admin
+            echo "::endgroup::"
+          fi
