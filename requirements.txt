@@ -1,0 +1,2 @@
+PyGithub~=1.59.0
+github-actions-utils==1.0.1
