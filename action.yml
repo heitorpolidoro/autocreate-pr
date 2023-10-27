@@ -1,5 +1,5 @@
-name: "Autocreate PR"
-description: "Set a Pull Request to auto-create"
+name: "Create Pull Request"
+description: "Create Pull Request with a flag to automerge"
 
 branding:
   color: yellow
@@ -7,7 +7,7 @@ branding:
 
 inputs:
    automerge:
-     description: "Set the PR with auto-merge"
+     description: "Set the Pull Request with auto-merge"
      required: false
      default: false
 
@@ -15,10 +15,12 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Create PR
-      run: $GITHUB_ACTION_PATH/create_pr.sh
+    - name: Installing dependencies
+      run: pip install -r $GITHUB_ACTION_PATH/requirements.txt
+      shell: bash
+
+    - name: Create Pull Resquest
+      run: python $GITHUB_ACTION_PATH/main.py
       shell: bash
       env:
         INPUT_AUTOMERGE: ${{ inputs.automerge }}
-
-

@@ -1,7 +1,8 @@
 #!/bin/bash
 # shellcheck disable=SC1090
 # shellcheck disable=SC1091
-source <(curl -s https://raw.githubusercontent.com/heitorpolidoro/bashtest/master/bashtest.sh)
+source bashtest.sh
+#source <(curl -s https://raw.githubusercontent.com/heitorpolidoro/bashtest/master/bashtest.sh)
 
 # Set up mock
 mock git
@@ -9,7 +10,7 @@ mock gh
 
 test_without_github_user() {
 	result=$(source create_pr.sh)
-	assert "$result" "*User '' is not allowed to auto create Pull Request*"
+	assert "$result" "*User '' is not allowed to auto ceate Pull Request*"
 }
 
 test_with_github_user_without_permission() {

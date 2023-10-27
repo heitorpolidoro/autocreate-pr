@@ -2,9 +2,11 @@
 set -e
 
 token=$(eval echo "\$$GITHUB_ACTOR")
+# Validate if user is allowed to auto create Pull Request or if is enabled to all (-z
 if [[ "$GITHUB_TOKEN" == "" && ("$token" == "$" || "$token" == "") ]]; then
 	echo -e "User '$GITHUB_ACTOR' is not allowed to auto create Pull Request"
 else
+  # Login to GitHub if needed
 	if [[ "$GITHUB_TOKEN" == "" ]]; then
 		echo "::group::GitHub authentication ($GITHUB_ACTOR)"
 		echo "$token" | gh auth login --with-token
