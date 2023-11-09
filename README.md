@@ -29,7 +29,8 @@ jobs:
       - name: Creating Pull Request
         uses: heitorpolidoro/autocreate-pr@v2.1.0
         with:
-            automerge: true|false
+            draft: true|false # default: false
+            automerge: true|false # default: false
         env:
           <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
            # or          
