@@ -13,19 +13,62 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Tests
-        run: ./tests.sh
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest-cov
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run tests
+        run: |
+          pytest --cov=github_actions_utils --cov-branch --cov-report=xml
+          coverage xml
+          pwd
+          cat coverage.xml
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@v2.0.2
+        if: matrix.python-version == '3.11'
+        with:
+          args: -Dsonar.python.version=${{ matrix.python-version }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2.2.3
+        with:
+          flag-name: run-${{ matrix.python-version }}
+          measure: true
+          parallel: true
+
+
+  finish:
+    name: Finish Coveralls
+    needs: tests
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2.2.3
+        with:
+          parallel-finished: true
 
   linters:
     name: Linters
@@ -40,7 +83,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          linters: shellcheck shfmt
+          linters: flake8
 
   auto-merge:
     name: Auto Merge
@@ -59,8 +102,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Auto Merge if PR owner is a Code Owner
+      - name: Auto Merge if is my PR
         env:
           GH_TOKEN: ${{ secrets.HEITORPOLIDORO_PAT }}
         run: |
-            gh pr merge --squash --admin $GITHUB_HEAD_REF
+          gh pr merge --squash --admin $GITHUB_HEAD_REF

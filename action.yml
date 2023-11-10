@@ -9,7 +9,11 @@ inputs:
    automerge:
      description: "Set the Pull Request with auto-merge"
      required: false
-     default: false
+     default: "false"
+   draft:
+     description: "Set the Pull Request to draft"
+     required: false
+     default: "false"
 
 
 runs:
@@ -20,7 +24,8 @@ runs:
       shell: bash
 
     - name: Create Pull Resquest
-      run: python $GITHUB_ACTION_PATH/main.py
+      run: python $GITHUB_ACTION_PATH/autocreate.py
       shell: bash
       env:
         INPUT_AUTOMERGE: ${{ inputs.automerge }}
+        INPUT_DRAFT: ${{ inputs.draft }}
