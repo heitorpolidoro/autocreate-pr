@@ -25,6 +25,7 @@ def main():
         repo = get_repo(gh)
         draft = os.getenv("INPUT_DRAFT") == "true"
         auto_merge = os.getenv("INPUT_AUTO_MERGE") == "true"
+        merge_method = os.getenv("INPUT_MERGE_METHOD", "MERGE")
 
         @github_group("Creating PR")
         def _create_pull():
@@ -52,7 +53,7 @@ def main():
 
             @github_group("Setting to auto merge")
             def _auto_merge():
-                pr.enable_automerge("SQUASH")
+                pr.enable_automerge(merge_method)
 
             _auto_merge()
     else:

@@ -68,4 +68,4 @@ def test_create_pull_request_auto_merge(actor_token, repo, monkeypatch):
         draft=False,
     )
 
-    repo.create_pull.return_value.merge.assert_called_once_with(auto_merge=True)
+    repo.create_pull.return_value.enable_automerge.assert_called_once_with("MERGE")

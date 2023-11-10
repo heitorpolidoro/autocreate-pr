@@ -16,6 +16,7 @@ jobs:
         uses: heitorpolidoro/autocreate-pr@v2.1.0
         with:
           auto_merge: true
+          merge_method: SQUASH
 
         env:
           heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}

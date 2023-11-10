@@ -14,6 +14,10 @@ inputs:
      description: "Set the Pull Request to draft"
      required: false
      default: "false"
+   merge_method:
+     description: "Set the Pull Request to draft"
+     required: false
+     default: "MERGE"
 
 
 runs:
@@ -29,3 +33,4 @@ runs:
       env:
         INPUT_AUTO_MERGE: ${{ inputs.auto_merge }}
         INPUT_DRAFT: ${{ inputs.draft }}
+        INPUT_MERGE_METHOD: ${{ inputs.merge_method }}
