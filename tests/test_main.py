@@ -33,7 +33,11 @@ def test_create_pull_request(actor_token, repo):
         main()
 
     repo.create_pull.assert_called_once_with(
-        "master", "branch", title="branch", body="PR automatically created", draft=False
+        "master",
+        "branch",
+        title="branch",
+        body="PR automatically created",
+        draft=False,
     )
 
 
@@ -43,5 +47,25 @@ def test_create_pull_request_draft(actor_token, repo, monkeypatch):
         main()
 
     repo.create_pull.assert_called_once_with(
-        "master", "branch", title="branch", body="PR automatically created", draft=True
+        "master",
+        "branch",
+        title="branch",
+        body="PR automatically created",
+        draft=True,
     )
+
+
+def test_create_pull_request_auto_merge(actor_token, repo, monkeypatch):
+    monkeypatch.setenv("INPUT_AUTO_MERGE", "true")
+    with patch("autocreate.get_repo", return_value=repo):
+        main()
+
+    repo.create_pull.assert_called_once_with(
+        "master",
+        "branch",
+        title="branch",
+        body="PR automatically created",
+        draft=False,
+    )
+
+    repo.create_pull.return_value.merge.assert_called_once_with(auto_merge=True)

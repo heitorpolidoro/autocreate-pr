@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from github import Github
+from github import Github, GithubException
 from github.Repository import Repository
 from urllib3.util import parse_url
 
@@ -23,20 +23,38 @@ def main():
         gh = Github(token)
         current_branch = os.getenv("GITHUB_REF_NAME")
         repo = get_repo(gh)
+        draft = os.getenv("INPUT_DRAFT") == "true"
+        auto_merge = os.getenv("INPUT_AUTO_MERGE") == "true"
 
         @github_group("Creating PR")
         def _create_pull():
-            return repo.create_pull(
-                repo.default_branch,
-                current_branch,
-                title=current_branch,
-                body="PR automatically created",
-                draft=os.getenv("INPUT_DRAFT") == "true",
-                # maintainer_can_modify: Opt[bool] = NotSet,
-                # issue: Opt[github.Issue.Issue] = NotSet,
-            )
+            try:
+                return repo.create_pull(
+                    repo.default_branch,
+                    current_branch,
+                    title=current_branch,
+                    body="PR automatically created",
+                    draft=draft,
+                    # maintainer_can_modify: Opt[bool] = NotSet,
+                    # issue: Opt[github.Issue.Issue] = NotSet,
+                )
+            except GithubException as e:
+                errors_messages = [e["message"] for e in e.data["errors"]]
+                if len(errors_messages) == 1 and (em := errors_messages[0]).startswith(
+                    "A pull request already exists for"
+                ):
+                    print(em)
+                    return list(repo.get_pulls())[-1]
+                raise e
 
-        _create_pull()
+        pr = _create_pull()
+        if auto_merge:
+
+            @github_group("Setting to auto merge")
+            def _auto_merge():
+                pr.enable_automerge("SQUASH")
+
+            _auto_merge()
     else:
         exit(f"User '{actor}' is not allowed to auto create Pull Request")
 

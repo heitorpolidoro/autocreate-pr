@@ -15,7 +15,7 @@ jobs:
       - name: Creating Pull Request
         uses: heitorpolidoro/autocreate-pr@v2.1.0
         with:
-          automerge: true
+          auto_merge: true
 
         env:
           heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}
