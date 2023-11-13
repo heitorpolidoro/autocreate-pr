@@ -6,6 +6,8 @@ from github import GithubException
 
 from autocreate import main
 
+PR_AUTOMATICALLY_CREATED = "PR automatically created"
+
 
 @pytest.fixture
 def actor_token(monkeypatch):
@@ -119,7 +121,7 @@ def test_other_error(actor_token, repo, monkeypatch, capsys):
         "master",
         "branch",
         title="branch",
-        body="PR automatically created",
+        body=PR_AUTOMATICALLY_CREATED,
         draft=False,
     )
 

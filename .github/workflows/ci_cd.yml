@@ -41,6 +41,9 @@ jobs:
           pwd
           cat coverage.xml
 
+      - name: Override Coverage Source Path for Sonar
+        run: sed -i "s/<source>\/home\/runner\/work\/repo<\/source>/<source>\/github\/workspace<\/source>/g" coverage.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2.0.2
         if: matrix.python-version == '3.11'
