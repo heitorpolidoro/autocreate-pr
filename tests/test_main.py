@@ -1,5 +1,4 @@
 import os
-from unittest.mock import patch
 
 import pytest
 from github import GithubException
@@ -105,11 +104,7 @@ def test_already_created_pull_request(actor_token, repo, pr, monkeypatch, capsys
 def test_other_error(actor_token, repo, monkeypatch, capsys):
     repo.create_pull.side_effect = GithubException(
         422,
-        data={
-            "errors": [
-                {"message": "Something went wrong"}
-            ]
-        },
+        data={"errors": [{"message": "Something went wrong"}]},
     )
     monkeypatch.setenv("INPUT_AUTO_MERGE", "true")
     with pytest.raises(Exception) as error:
