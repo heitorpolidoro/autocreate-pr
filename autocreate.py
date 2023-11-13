@@ -2,6 +2,7 @@ import os
 import subprocess
 
 from github import Github, GithubException
+from github.Auth import Token
 from github.Repository import Repository
 from urllib3.util import parse_url
 
@@ -20,7 +21,7 @@ def main():
     token = os.getenv(actor) or os.getenv("GITHUB_TOKEN")
     if token:
         # create
-        gh = Github(token)
+        gh = Github(auth=Token(token))
         current_branch = os.getenv("GITHUB_REF_NAME")
         repo = get_repo(gh)
         draft = os.getenv("INPUT_DRAFT") == "true"
