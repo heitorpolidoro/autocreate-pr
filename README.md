@@ -30,7 +30,7 @@ jobs:
         uses: heitorpolidoro/autocreate-pr@v2.1.0
         with:
             draft: true|false # default: false
-            automerge: true|false # default: false
+            auto_merge: true|false # default: false
         env:
           <user>: ${{ secrets.<USER_PERSONAL_ACCESS_TOKEN> }}
            # or          

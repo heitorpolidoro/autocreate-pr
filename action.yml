@@ -1,12 +1,12 @@
 name: "Create Pull Request"
-description: "Create Pull Request with a flag to automerge"
+description: "Create Pull Request with a flag to auto_merge"
 
 branding:
   color: yellow
   icon: git-pull-request
 
 inputs:
-   automerge:
+   auto_merge:
      description: "Set the Pull Request with auto-merge"
      required: false
      default: "false"
@@ -14,6 +14,10 @@ inputs:
      description: "Set the Pull Request to draft"
      required: false
      default: "false"
+   merge_method:
+     description: "Set the Pull Request to draft"
+     required: false
+     default: "MERGE"
 
 
 runs:
@@ -27,5 +31,6 @@ runs:
       run: python $GITHUB_ACTION_PATH/autocreate.py
       shell: bash
       env:
-        INPUT_AUTOMERGE: ${{ inputs.automerge }}
+        INPUT_AUTO_MERGE: ${{ inputs.auto_merge }}
         INPUT_DRAFT: ${{ inputs.draft }}
+        INPUT_MERGE_METHOD: ${{ inputs.merge_method }}

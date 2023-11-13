@@ -20,8 +20,17 @@ def gh():
 
 
 @pytest.fixture
-def repo(gh):
+def repo():
     with patch("github.Repository.Repository") as Repository:
         repository = Repository()
         repository.default_branch = "master"
-        yield repository
+        with patch("autocreate.get_repo", return_value=repository):
+            yield repository
+
+
+@pytest.fixture
+def pr():
+    with patch("github.PullRequest.PullRequest") as PullRequest:
+        pull_request = PullRequest()
+        pull_request.default_branch = "master"
+        yield pull_request
