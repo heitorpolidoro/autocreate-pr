@@ -6,7 +6,7 @@ from github.Auth import Token
 from github.Repository import Repository
 from urllib3.util import parse_url
 
-from github_actions_utils.log_utils import github_group
+from github_actions_utils.log_utils import log_group, summary
 
 
 def get_repo(gh: Github) -> Repository:
@@ -15,50 +15,78 @@ def get_repo(gh: Github) -> Repository:
     return gh.get_repo(repo_name)
 
 
-def main():
+def exit_(message):  # TODO to github_actions_utils
+    summary(f"ERROR: {message}")
+    exit(message)
+
+
+def get_gh():
     actor = os.getenv("GITHUB_ACTOR")
     assert actor, "Must set GITHUB_ACTOR"
-    token = os.getenv(actor) or os.getenv("GITHUB_TOKEN")
+
+    summary(f"Retrieving {actor} token...", end="")
+    token = os.getenv(actor)
     if token:
-        # create
-        gh = Github(auth=Token(token))
-        current_branch = os.getenv("GITHUB_REF_NAME")
-        repo = get_repo(gh)
-        draft = os.getenv("INPUT_DRAFT") == "true"
-        auto_merge = os.getenv("INPUT_AUTO_MERGE") == "true"
-        merge_method = os.getenv("INPUT_MERGE_METHOD", "MERGE")
-
-        @github_group("Creating PR")
-        def _create_pull():
-            try:
-                return repo.create_pull(
-                    repo.default_branch,
-                    current_branch,
-                    title=current_branch,
-                    body="PR automatically created",
-                    draft=draft,
-                    # maintainer_can_modify: Opt[bool] = NotSet,
-                    # issue: Opt[github.Issue.Issue] = NotSet,
-                )
-            except GithubException as e:
-                errors_messages = [e.get("message", str(e)) for e in e.data["errors"]]
-                if len(errors_messages) == 1 and (em := errors_messages[0]).startswith(
-                    "A pull request already exists for"
-                ):
-                    print(em)
-                    return list(repo.get_pulls())[-1]
-                raise e
-
-        pr = _create_pull()
-        if auto_merge:
-
-            @github_group("Setting to auto merge")
-            def _auto_merge():
-                pr.enable_automerge(merge_method)
-
-            _auto_merge()
+        actor_token = True
+        summary(":white_check_mark:")
     else:
-        exit(f"User '{actor}' is not allowed to auto create Pull Request")
+        actor_token = False
+        summary(":x:")
+        summary("Retrieving GITHUB_TOKEN")
+        token = os.getenv("GITHUB_TOKEN")
+    if not token:
+        exit_(f"User '{actor}' is not allowed to auto create Pull Request")
+
+    if actor_token:
+        summary(f"Login in as {actor}...", end="")
+    gh = Github(auth=Token(token))
+    login = gh.get_user().login
+    if login != actor:
+        if actor_token:
+            summary(":x:")
+        exit_(f"Token is for user {login}!")
+    if actor_token:
+        summary(":white_check_mark:")
+    return gh
+
+
+def main():
+    gh = get_gh()
+    repo = get_repo(gh)
+
+    current_branch = os.getenv("GITHUB_REF_NAME")
+    draft = os.getenv("INPUT_DRAFT") == "true"
+    auto_merge = os.getenv("INPUT_AUTO_MERGE") == "true"
+    merge_method = os.getenv("INPUT_MERGE_METHOD", "MERGE")
+
+    @log_group("Creating PR")
+    def _create_pull():
+        try:
+            return repo.create_pull(
+                repo.default_branch,
+                current_branch,
+                title=current_branch,
+                body="PR automatically created",
+                draft=draft,
+                # maintainer_can_modify: Opt[bool] = NotSet,
+                # issue: Opt[github.Issue.Issue] = NotSet,
+            )
+        except GithubException as e:
+            errors_messages = [e.get("message", str(e)) for e in e.data["errors"]]
+            if len(errors_messages) == 1 and (em := errors_messages[0]).startswith(
+                    "A pull request already exists for"
+            ):
+                print(em)
+                return list(repo.get_pulls())[-1]
+            raise e
+
+    pr = _create_pull()
+    if auto_merge:
+        @log_group("Setting to auto merge")
+        def _auto_merge():
+            pr.enable_automerge(merge_method)
+
+        _auto_merge()
 
 
 if __name__ == "__main__":  # pragma: no cover
