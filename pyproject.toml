@@ -4,3 +4,4 @@ addopts = "--cov-config=pyproject.toml"
 [tool.coverage.run]
 source = ["."]
 omit = ["tests/*"]
+

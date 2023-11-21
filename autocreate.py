@@ -41,7 +41,7 @@ def main():
                     # issue: Opt[github.Issue.Issue] = NotSet,
                 )
             except GithubException as e:
-                errors_messages = [e["message"] for e in e.data["errors"]]
+                errors_messages = [e.get("message", str(e)) for e in e.data["errors"]]
                 if len(errors_messages) == 1 and (em := errors_messages[0]).startswith(
                     "A pull request already exists for"
                 ):

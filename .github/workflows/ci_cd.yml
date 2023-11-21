@@ -13,10 +13,6 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
-    if: github.event_name != 'workflow_dispatch'
-    strategy:
-      matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
 
     steps:
       - name: Checkout
@@ -24,10 +20,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.x"
           cache: 'pip'
 
       - name: Install dependencies
@@ -40,19 +36,13 @@ jobs:
         run: |
           pytest --cov --cov-branch --cov-report=xml
           coverage xml
-          pwd
-          cat coverage.xml
 
       - name: Override Coverage Source Path for Sonar
         run: |
           sed -i "s/<source>\/home\/runner\/work\/autocreate-pr\/autocreate-pr<\/source>/<source>\/github\/workspace<\/source>/g" coverage.xml
-          cat coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2.0.2
-        if: matrix.python-version == '3.11'
-        with:
-          args: -Dsonar.python.version=${{ matrix.python-version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -60,7 +50,6 @@ jobs:
       - name: Coveralls Parallel
         uses: coverallsapp/github-action@v2.2.3
         with:
-          flag-name: run-${{ matrix.python-version }}
           measure: true
           parallel: true
 

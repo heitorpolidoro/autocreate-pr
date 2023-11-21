@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Creating Pull Request
-        uses: heitorpolidoro/autocreate-pr@v2.1.0
+        uses: heitorpolidoro/autocreate-pr@vmaster
         with:
             draft: true|false # default: false
             auto_merge: true|false # default: false

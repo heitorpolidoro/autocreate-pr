@@ -3,19 +3,19 @@ on:
   workflow_run:
     workflows: ["Code Quality"]
     branches: [master]
-    types:
-      - completed
+    types: [completed]
 
 jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Create GitHub Release
+      - name: Running Auto Release
         id: release
         uses: heitorpolidoro/auto-release@master
         env:
