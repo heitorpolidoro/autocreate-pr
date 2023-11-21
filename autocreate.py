@@ -1,3 +1,4 @@
+import logging
 import os
 import subprocess
 
@@ -62,6 +63,10 @@ def main():
     @log_group("Creating PR")
     def _create_pull():
         try:
+            print("----------------------------------------------------")
+            logging.error("teste")
+            print(repo.default_branch, current_branch)
+            print("----------------------------------------------------")
             return repo.create_pull(
                 repo.default_branch,
                 current_branch,
