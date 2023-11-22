@@ -23,9 +23,18 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Installing dependencies
-      run: pip install -r $GITHUB_ACTION_PATH/requirements.txt
-      shell: bash
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+        cache: 'pip'
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest-cov
+        pip install -r requirements.txt
 
     - name: Create Pull Resquest
       run: python $GITHUB_ACTION_PATH/autocreate.py
