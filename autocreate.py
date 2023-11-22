@@ -1,13 +1,11 @@
-import logging
 import os
 import subprocess
 
 from github import Github, GithubException
 from github.Auth import Token
 from github.Repository import Repository
+from github_actions_utils.log import github_log_group, summary
 from urllib3.util import parse_url
-
-from github_actions_utils.log_utils import log_group, summary
 
 
 def get_repo(gh: Github) -> Repository:
@@ -60,14 +58,10 @@ def main():
     auto_merge = os.getenv("INPUT_AUTO_MERGE") == "true"
     merge_method = os.getenv("INPUT_MERGE_METHOD", "MERGE")
 
-    @log_group("Creating PR")
+    @github_log_group("Creating PR")
     def _create_pull():
         try:
-            print("----------------------------------------------------")
-            logging.error("teste")
-            print(repo.default_branch, current_branch)
-            print("----------------------------------------------------")
-            return repo.create_pull(
+            pr_ = repo.create_pull(
                 repo.default_branch,
                 current_branch,
                 title=current_branch,
@@ -76,6 +70,8 @@ def main():
                 # maintainer_can_modify: Opt[bool] = NotSet,
                 # issue: Opt[github.Issue.Issue] = NotSet,
             )
+            print(f"Created PR {pr_.html_url}")
+            return pr_
         except GithubException as e:
             errors_messages = [e.get("message", str(e)) for e in e.data["errors"]]
             if len(errors_messages) == 1 and (em := errors_messages[0]).startswith(
@@ -87,9 +83,10 @@ def main():
 
     pr = _create_pull()
     if auto_merge:
-        @log_group("Setting to auto merge")
+        @github_log_group("Setting to auto merge")
         def _auto_merge():
             pr.enable_automerge(merge_method)
+            print(f"Auto merge enabled for PR {pr.html_url}")
 
         _auto_merge()
 

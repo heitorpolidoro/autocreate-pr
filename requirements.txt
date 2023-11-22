@@ -1,2 +1,2 @@
 PyGithub @ git+https://github.com/heitorpolidoro/PyGithub@main
-github-actions-utils<=1.0
+github-actions-utils==0.4.2
