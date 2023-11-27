@@ -47,7 +47,6 @@ def github_log_group_context_manager(text):  # TODO to github_actions_utils
     yield
     print("::endgroup::")
 
-
 def main():
     actor = github_envs.actor
     with github_log_group_context_manager(f"Logging with {actor}..."):
