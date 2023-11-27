@@ -1,3 +1,4 @@
+import contextlib
 import os
 
 from github import GithubException
@@ -40,6 +41,7 @@ def exit_(message):  # TODO to github_actions_utils
     exit(message)
 
 
+@contextlib.contextmanager
 def github_log_group_context_manager(text):  # TODO to github_actions_utils
     print(f"::group::{text}")
     yield
