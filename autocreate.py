@@ -50,8 +50,8 @@ def github_log_group_context_manager(text):  # TODO to github_actions_utils
 def main():
     actor = github_envs.actor
     with github_log_group_context_manager(f"Logging with {actor}..."):
-        print(github_envs.token[:3])
         actor_token = get_env(actor)
+        print(actor_token[:3])
         gh = get_github(actor_token)
         if actor_token and gh.get_user().login != actor:
             exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
