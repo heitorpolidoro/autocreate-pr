@@ -1,59 +1,61 @@
 import os
-import subprocess
 
-from github import Github, GithubException
-from github.Auth import Token
-from github.Repository import Repository
+from github import GithubException
+from github_actions_utils.env import github_envs, get_env
+from github_actions_utils.github import get_github
 from github_actions_utils.log import github_log_group, summary
-from urllib3.util import parse_url
 
 
-def get_repo(gh: Github) -> Repository:
-    url = subprocess.check_output(["git", "config", "--get", "remote.origin.url"])
-    repo_name = parse_url(url.decode().strip()).path.replace(".git", "")[1:]
-    return gh.get_repo(repo_name)
-
-
+# def get_gh():
+#     actor = os.getenv("GITHUB_ACTOR")
+#     assert actor, "Must set GITHUB_ACTOR"
+#
+#     summary(f"Retrieving {actor} token...", end="")
+#     token = os.getenv(actor)
+#     if token:
+#         actor_token = True
+#         summary(":white_check_mark:")
+#     else:
+#         actor_token = False
+#         summary(":x:")
+#         summary("Retrieving GITHUB_TOKEN")
+#         token = os.getenv("GITHUB_TOKEN")
+#     if not token:
+#         exit_(f"User '{actor}' is not allowed to auto create Pull Request")
+#
+#     if actor_token:
+#         summary(f"Login in as {actor}...", end="")
+#     gh = Github(auth=Token(token))
+#     login = gh.get_user().login
+#     if login != actor:
+#         if actor_token:
+#             summary(":x:")
+#         exit_(f"Token is for user {login}!")
+#     if actor_token:
+#         summary(":white_check_mark:")
+#     return gh
 def exit_(message):  # TODO to github_actions_utils
+    print(f"::error::{message}")
     summary(f"ERROR: {message}")
     exit(message)
 
 
-def get_gh():
-    actor = os.getenv("GITHUB_ACTOR")
-    assert actor, "Must set GITHUB_ACTOR"
-
-    summary(f"Retrieving {actor} token...", end="")
-    token = os.getenv(actor)
-    if token:
-        actor_token = True
-        summary(":white_check_mark:")
-    else:
-        actor_token = False
-        summary(":x:")
-        summary("Retrieving GITHUB_TOKEN")
-        token = os.getenv("GITHUB_TOKEN")
-    if not token:
-        exit_(f"User '{actor}' is not allowed to auto create Pull Request")
-
-    if actor_token:
-        summary(f"Login in as {actor}...", end="")
-    gh = Github(auth=Token(token))
-    login = gh.get_user().login
-    if login != actor:
-        if actor_token:
-            summary(":x:")
-        exit_(f"Token is for user {login}!")
-    if actor_token:
-        summary(":white_check_mark:")
-    return gh
+def github_log_group_context_manager(text):  # TODO to github_actions_utils
+    print(f"::group::{text}")
+    yield
+    print("::endgroup::")
 
 
 def main():
-    gh = get_gh()
-    repo = get_repo(gh)
+    actor = github_envs.actor
+    with github_log_group_context_manager(f"Logging with {actor}..."):
+        actor_token = get_env(actor)
+        gh = get_github(actor_token)
+        if actor_token and gh.get_user().login != actor:
+            exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
+    repo = gh.get_current_repo()
 
-    current_branch = os.getenv("GITHUB_REF_NAME")
+    current_branch = github_envs.ref_name
     draft = os.getenv("INPUT_DRAFT") == "true"
     auto_merge = os.getenv("INPUT_AUTO_MERGE") == "true"
     merge_method = os.getenv("INPUT_MERGE_METHOD", "MERGE")
@@ -67,8 +69,6 @@ def main():
                 title=current_branch,
                 body="PR automatically created",
                 draft=draft,
-                # maintainer_can_modify: Opt[bool] = NotSet,
-                # issue: Opt[github.Issue.Issue] = NotSet,
             )
             print(f"Created PR {pr_.html_url}")
             return pr_

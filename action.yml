@@ -30,7 +30,7 @@ runs:
       run: pip install -r $GITHUB_ACTION_PATH/requirements.txt
       shell: bash
 
-    - name: Create Pull Resquest
+    - name: Create Pull Request
       run: python $GITHUB_ACTION_PATH/autocreate.py
       shell: bash
       env:

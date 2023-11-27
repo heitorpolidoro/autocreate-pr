@@ -13,22 +13,14 @@ def actor_token(monkeypatch):
     monkeypatch.setenv("test_user", os.getenv("GITHUB_TOKEN", "actor_token"))
 
 
-def test_missing_github_actor(monkeypatch):
-    monkeypatch.delenv("GITHUB_ACTOR")
-    with pytest.raises(AssertionError) as error:
-        main()
-
-    assert str(error.value) == "Must set GITHUB_ACTOR"
-
-
-def test_without_github_user(monkeypatch):
+def test_without_github_user_and_github_token(monkeypatch, repo):
     monkeypatch.delenv("GITHUB_TOKEN", False)
     with pytest.raises(SystemExit) as error:
         main()
 
     assert (
-        str(error.value)
-        == "User 'test_user' is not allowed to auto create Pull Request"
+            str(error.value)
+            == "User 'test_user' is not allowed to auto create Pull Request"
     )
 
 
@@ -86,8 +78,8 @@ def test_already_created_pull_request(actor_token, repo, pr, monkeypatch, capsys
     main()
 
     assert (
-        "A pull request already exists for heitorpolidoro:branch."
-        in capsys.readouterr().out
+            "A pull request already exists for heitorpolidoro:branch."
+            in capsys.readouterr().out
     )
 
     repo.create_pull.assert_called_once_with(
