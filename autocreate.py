@@ -63,7 +63,7 @@ def main():
     elif token := github_envs.token:
         gh = get_github(token)
     if not gh:
-        exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
+        exit_(f"{actor} is not allowed to trigger autocreate PR!")
 
 
     exit(1)
