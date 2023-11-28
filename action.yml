@@ -6,30 +6,30 @@ branding:
   icon: git-pull-request
 
 inputs:
-   auto_merge:
-     description: "Set the Pull Request with auto-merge"
-     required: false
-     default: "false"
-   draft:
-     description: "Set the Pull Request to draft"
-     required: false
-     default: "false"
-   merge_method:
-     description: "Set the Pull Request to draft"
-     required: false
-     default: "MERGE"
+  auto_merge:
+    description: "Set the Pull Request with auto-merge"
+    required: false
+    default: "false"
+  draft:
+    description: "Set the Pull Request to draft"
+    required: false
+    default: "false"
+  merge_method:
+    description: "Choose a method to merge the PR"
+    required: false
+    default: "MERGE"
 
 
 runs:
   using: "composite"
-  pre: |
-    if [ -z "$GITHUB_TOKEN" ]; then
-      echo "Set the GITHUB_TOKEN env variable."
-      exit 1
-    fi
   steps:
     - name: Checkout
       uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip' # caching pip dependencies
 
     - name: Installing Python dependencies
       run: pip install -r $GITHUB_ACTION_PATH/requirements.txt

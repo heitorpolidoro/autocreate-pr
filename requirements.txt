@@ -1,3 +1,3 @@
 github-actions-utils==0.6.1
 github-action-utils==1.1.0
-PyGithub @ git+https://github.com/heitorpolidoro/PyGithub@main  # Removes when PyGithub release https://github.com/PyGithub/PyGithub/pull/2816
+Polidoro-PyGithub==2.2.0rc1
