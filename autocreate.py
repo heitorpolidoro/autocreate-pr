@@ -65,6 +65,7 @@ def main():
     if not gh:
         exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
 
+
     exit(1)
     repo = gh.get_current_repo()
 
