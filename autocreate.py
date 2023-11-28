@@ -59,7 +59,6 @@ def main():
             gh = get_github(actor_token)
             if gh.get_user().login != actor:
                 exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
-            gha_utils.notice(f"Successfully logged as {actor}!")
             gha_utils.append_job_summary(f"- Successfully logged as {actor}!")
     elif token := github_envs.token:
         gh = get_github(token)
