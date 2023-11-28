@@ -38,8 +38,8 @@ import github_action_utils as gha_utils
 #         summary(":white_check_mark:")
 #     return gh
 def exit_(message):  # TODO to github_actions_utils
-    gha_utils.error(message)
-    exit(message)
+    gha_utils.error(f"gha {message}")
+    exit(f"exit {message}")
 
 
 @contextlib.contextmanager
@@ -66,7 +66,7 @@ def main():
         exit_(f"{actor} is not allowed to trigger autocreate PR!")
 
 
-    exit(1)
+    exit(14)
     repo = gh.get_current_repo()
 
     current_branch = github_envs.ref_name
