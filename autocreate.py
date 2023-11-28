@@ -5,6 +5,8 @@ from github import GithubException
 from github_actions_utils.env import github_envs, get_env
 from github_actions_utils.github import get_github
 from github_actions_utils.log import github_log_group, summary
+import github_action_utils as gha_utils
+
 
 
 # def get_gh():
@@ -36,8 +38,7 @@ from github_actions_utils.log import github_log_group, summary
 #         summary(":white_check_mark:")
 #     return gh
 def exit_(message):  # TODO to github_actions_utils
-    print(f"::error::{message}")
-    summary(f"ERROR: {message}")
+    gha_utils.error(message)
     exit(message)
 
 
@@ -47,14 +48,24 @@ def github_log_group_context_manager(text):  # TODO to github_actions_utils
     yield
     print("::endgroup::")
 
+
+# def check_user_permission():
 def main():
+    # check_user_permission()
     actor = github_envs.actor
-    with github_log_group_context_manager(f"Logging with {actor}..."):
-        actor_token = get_env(actor)
-        print(actor_token[:3])
-        gh = get_github(actor_token)
-        if actor_token and gh.get_user().login != actor:
-            exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
+    actor_token = get_env(actor)
+    gh = None
+    if actor_token and not actor_token.startswith("ghs"):
+        with gha_utils.group(f"Logging with {actor}..."):
+            gh = get_github(actor_token)
+            if gh.get_user().login != actor:
+                exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
+    elif token := github_envs.token:
+        gh = get_github(token)
+    if not gh:
+        exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
+
+    exit(1)
     repo = gh.get_current_repo()
 
     current_branch = github_envs.ref_name
