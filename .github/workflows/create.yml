@@ -19,4 +19,4 @@ jobs:
           merge_method: SQUASH
 
         env:
-          heitorpolidoro: ${{ secrets.GITHUB_TOKEN }}
+          heitorpolidoro: ${{ secrets.HEITORPOLIDORO_PAT }}

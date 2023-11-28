@@ -8,10 +8,12 @@ branding:
 inputs:
    auto_merge:
      description: "Set the Pull Request with auto-merge"
+     type: bool
      required: false
-     default: "false"
+     default: false
    draft:
      description: "Set the Pull Request to draft"
+     type: bool
      required: false
      default: "false"
    merge_method:

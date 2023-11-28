@@ -2,11 +2,10 @@ import contextlib
 import os
 
 from github import GithubException
-from github_actions_utils.env import github_envs, get_env
+from github_actions_utils.env import github_envs, get_env, get_input
 from github_actions_utils.github import get_github
 from github_actions_utils.log import github_log_group, summary
 import github_action_utils as gha_utils
-
 
 
 # def get_gh():
@@ -38,7 +37,7 @@ import github_action_utils as gha_utils
 #         summary(":white_check_mark:")
 #     return gh
 def exit_(message):  # TODO to github_actions_utils
-    gha_utils.error(f"gha {message}")
+    gha_utils.error(f"{message}")
     exit(1)
 
 
@@ -60,18 +59,19 @@ def main():
             gh = get_github(actor_token)
             if gh.get_user().login != actor:
                 exit_(f"Token is for user {gh.get_user().login} not for {actor}!")
+            gha_utils.notice(f"Successfully logged as {actor}!")
+            gha_utils.append_job_summary(f"- Successfully logged as {actor}!")
     elif token := github_envs.token:
         gh = get_github(token)
     if not gh:
         exit_(f"{actor} is not allowed to trigger autocreate PR!")
 
-
     repo = gh.get_current_repo()
 
     current_branch = github_envs.ref_name
-    draft = os.getenv("INPUT_DRAFT") == "true"
-    auto_merge = os.getenv("INPUT_AUTO_MERGE") == "true"
-    merge_method = os.getenv("INPUT_MERGE_METHOD", "MERGE")
+    draft = get_input("draft", type=bool, default=False)
+    auto_merge = get_input("auto_merge", type=bool, default=False)
+    merge_method = get_input("merge_method", "MERGE")
 
     @github_log_group("Creating PR")
     def _create_pull():
