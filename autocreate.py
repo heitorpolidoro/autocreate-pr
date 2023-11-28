@@ -2,7 +2,7 @@ import contextlib
 import os
 
 from github import GithubException
-from github_actions_utils.env import github_envs, get_env, get_input
+from github_actions_utils.env import github_envs, get_env, get_input, inputs
 from github_actions_utils.github import get_github
 from github_actions_utils.log import github_log_group, summary
 import github_action_utils as gha_utils
@@ -69,9 +69,9 @@ def main():
     repo = gh.get_current_repo()
 
     current_branch = github_envs.ref_name
-    draft = get_input("draft", type=bool, default=False)
-    auto_merge = get_input("auto_merge", type=bool, default=False)
-    merge_method = get_input("merge_method", "MERGE")
+    draft = inputs.draft
+    auto_merge = inputs.auto_merge
+    merge_method = inputs.merge_method
 
     @github_log_group("Creating PR")
     def _create_pull():
